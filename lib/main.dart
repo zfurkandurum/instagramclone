@@ -29,10 +29,11 @@ class MainApp extends StatelessWidget {
         title: "instagram clone",
         theme: ThemeData.dark()
             .copyWith(scaffoldBackgroundColor: mobileBackgroundColor),
-        // home: const ResponsiveLayout(
-        //   mobilScreenLayout: mobilScreenLayout(),
-        //   webScreenLayout: webScreenLayout(),
-        // ),
+        //   home: const ResponsiveLayout(
+        //     mobilScreenLayout: mobilScreenLayout(),
+        //     webScreenLayout: webScreenLayout(),
+        //   ),
+        // );
         home: const SignupScreen());
   }
 }

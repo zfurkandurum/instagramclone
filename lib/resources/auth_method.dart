@@ -29,15 +29,6 @@ class AuthMethods {
           'followers': [],
           'following': [],
         });
-
-        // await _firestore.collection("users").add({
-        //    'username': username,
-        //   'uid': cred.user!.uid,
-        //   'email': email,
-        //   'bio': bio,
-        //   'followers': [],
-        //   'following': [],
-        // });
       }
     } catch (err) {
       res = err.toString();

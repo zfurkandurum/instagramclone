@@ -1,8 +1,11 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:instagramclone/resources/auth_method.dart';
 import 'package:instagramclone/utils/color.dart';
+import 'package:instagramclone/utils/utils.dart';
 import 'package:instagramclone/widgets/text_field_input.dart';
+import 'package:image_picker/image_picker.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -16,7 +19,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
-
+  Uint8List? _image;
   @override
   void dispose() {
     super.dispose();
@@ -24,6 +27,13 @@ class _SignupScreenState extends State<SignupScreen> {
     _passwordController.dispose();
     _bioController.dispose();
     _usernameController.dispose();
+  }
+
+  void selectImage() async {
+    Uint8List? im = await pickImage(ImageSource.gallery);
+    setState(() {
+      _image = im;
+    });
   }
 
   @override
@@ -45,16 +55,21 @@ class _SignupScreenState extends State<SignupScreen> {
               const SizedBox(height: 64),
               Stack(
                 children: [
-                  const CircleAvatar(
-                    radius: 64,
-                    backgroundImage: NetworkImage(
-                        "https://plus.unsplash.com/premium_photo-1690820317436-020a0848e86d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"),
-                  ),
+                  _image != null
+                      ? CircleAvatar(
+                          radius: 64,
+                          backgroundImage: MemoryImage(_image!),
+                        )
+                      : const CircleAvatar(
+                          radius: 64,
+                          backgroundImage: NetworkImage(
+                              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPJ0ay1Xb01JDdEGuAhR9lAUxCFwFLLZlPdp9D8bURqHWWgqbPlt4g-vfgxluUzT2CgKo&usqp=CAU"),
+                        ),
                   Positioned(
                     bottom: -10,
                     left: 80,
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: selectImage,
                       icon: const Icon(Icons.add_a_photo_outlined),
                     ),
                   )
