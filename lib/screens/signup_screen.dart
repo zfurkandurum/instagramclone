@@ -30,7 +30,7 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   void selectImage() async {
-    Uint8List? im = await pickImage(ImageSource.gallery);
+    Uint8List im = await pickImage(ImageSource.gallery);
     setState(() {
       _image = im;
     });
@@ -109,6 +109,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     password: _passwordController.text,
                     username: _usernameController.text,
                     bio: _bioController.text,
+                    file: _image!,
                   );
                   print(res);
                 },
