@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:instagramclone/screens/signup_screen.dart';
+import 'package:instagramclone/screens/login_screen.dart';
 import 'package:instagramclone/utils/color.dart';
 
 Future<void> main() async {
@@ -34,6 +34,6 @@ class MainApp extends StatelessWidget {
         //     webScreenLayout: webScreenLayout(),
         //   ),
         // );
-        home: const SignupScreen());
+        home: const LoginScreen());
   }
 }
