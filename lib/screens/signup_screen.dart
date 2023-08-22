@@ -53,9 +53,7 @@ class _SignupScreenState extends State<SignupScreen> {
     setState(() {
       _isloading = false;
     });
-    if (res != "success") {
-      showSnackBar(res, context);
-    } else {
+    if (res == "success") {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => const ResponsiveLayout(
@@ -64,6 +62,13 @@ class _SignupScreenState extends State<SignupScreen> {
           ),
         ),
       );
+    } else {
+      setState(() {
+        _isloading = false;
+      });
+      if (context.mounted) {
+        showSnackBar(res, context);
+      }
     }
   }
 

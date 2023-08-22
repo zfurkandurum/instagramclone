@@ -13,10 +13,13 @@ Future<void> main() async {
   if (kIsWeb) {
     await Firebase.initializeApp(
       options: const FirebaseOptions(
-          apiKey: "AIzaSyAQn0ib7bm35f0e3HxoyuFeIzCOkTiN2pI",
-          appId: "1:673388084712:web:ce63fdc60b9c8a3073b85d",
-          messagingSenderId: "673388084712",
-          projectId: "instagramclone-7fac8"),
+        apiKey: "AIzaSyAQn0ib7bm35f0e3HxoyuFeIzCOkTiN2pI",
+        appId: "1:673388084712:web:ce63fdc60b9c8a3073b85d",
+        messagingSenderId: "673388084712",
+        projectId: "instagramclone-7fac8",
+        storageBucket: "instagramclone-7fac8.appspot.com",
+        authDomain: "instagramclone-7fac8.firebaseapp.com",
+      ),
     );
   }
   await Firebase.initializeApp();
