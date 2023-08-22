@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:instagramclone/resources/auth_method.dart';
+import 'package:instagramclone/screens/home_screen.dart';
 import 'package:instagramclone/utils/color.dart';
 import 'package:instagramclone/utils/utils.dart';
 import 'package:instagramclone/widgets/text_field_input.dart';
@@ -34,15 +35,15 @@ class _LoginScreenState extends State<LoginScreen> {
     );
 
     if (res == "success") {
-      setState(() {
-        _isloading = true;
-      });
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => const HomeScreen(),
+      ));
     } else {
-      setState(() {
-        _isloading = true;
-      });
       showSnackBar(res, context);
     }
+    setState(() {
+      _isloading = false;
+    });
   }
 
   @override
