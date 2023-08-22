@@ -37,6 +37,10 @@ class AuthMethods {
         });
       }
     } catch (err) {
+      if (err is FirebaseAuthException) {
+        print("Firebase Auth Error Code: ${err.code}");
+        print("Firebase Auth Error Message: ${err.message}");
+      }
       res = err.toString();
     }
     return res;
