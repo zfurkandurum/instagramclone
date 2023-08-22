@@ -35,12 +35,13 @@ class AuthMethods {
           'following': [],
           'photoURL': photoURL,
         });
+        res = "success";
+      }
+    } on FirebaseAuthException catch (err) {
+      if (err.code == "invalid-email") {
+        res = "the email is badly formatted";
       }
     } catch (err) {
-      if (err is FirebaseAuthException) {
-        print("Firebase Auth Error Code: ${err.code}");
-        print("Firebase Auth Error Message: ${err.message}");
-      }
       res = err.toString();
     }
     return res;
