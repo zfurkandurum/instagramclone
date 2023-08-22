@@ -34,8 +34,13 @@ class _LoginScreenState extends State<LoginScreen> {
     );
 
     if (res == "success") {
-      //
+      setState(() {
+        _isloading = true;
+      });
     } else {
+      setState(() {
+        _isloading = true;
+      });
       showSnackBar(res, context);
     }
   }
