@@ -15,17 +15,9 @@ class _mobilScreenLayoutState extends State<mobilScreenLayout> {
   Widget build(BuildContext context) {
     model.User? user = Provider.of<UserProvider>(context).getUser;
 
-    if (user == null) {
-      return const Scaffold(
-        body: Center(
-          child: Text('User data is not available.'),
-        ),
-      );
-    }
-
     return Scaffold(
       body: Center(
-        child: Text(user.email),
+        child: Text(user!.bio),
       ),
     );
   }
