@@ -1,7 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:instagramclone/providers/user_provider.dart';
-import 'package:provider/provider.dart';
-import 'package:instagramclone/models/users.dart' as model;
+import 'package:instagramclone/utils/color.dart';
 
 class mobilScreenLayout extends StatefulWidget {
   const mobilScreenLayout({super.key});
@@ -13,12 +12,17 @@ class mobilScreenLayout extends StatefulWidget {
 class _mobilScreenLayoutState extends State<mobilScreenLayout> {
   @override
   Widget build(BuildContext context) {
-    model.User? user = Provider.of<UserProvider>(context).getUser;
-
     return Scaffold(
-      body: Center(
-        child: Text(user!.bio),
+      body: const Center(
+        child: Text("this is mobil"),
       ),
+      bottomNavigationBar: CupertinoTabBar(items: const [
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home),
+          label: "",
+          backgroundColor: primaryColor,
+        ),
+      ]),
     );
   }
 }
