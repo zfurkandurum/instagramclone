@@ -10,19 +10,90 @@ class mobilScreenLayout extends StatefulWidget {
 }
 
 class _mobilScreenLayoutState extends State<mobilScreenLayout> {
+  int _page = 0;
+  late PageController pageController;
+  @override
+  void initState() {
+    super.initState();
+    pageController = PageController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    pageController.dispose();
+  }
+
+  void navigationTab(int page) {
+    pageController.jumpToPage(page);
+  }
+
+  void onPageChanged(int page) {
+    setState(() {
+      _page = page;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: const Center(
-        child: Text("this is mobil"),
+      body: PageView(
+        //physics: const NeverScrollableScrollPhysics(),
+        controller: pageController,
+        onPageChanged: onPageChanged,
+        children: const [
+          Text("1111111111"),
+          Text("22222222"),
+          Text("33333333"),
+          Text("4444444444"),
+          Text("555555555"),
+        ],
       ),
-      bottomNavigationBar: CupertinoTabBar(items: const [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: "",
-          backgroundColor: primaryColor,
-        ),
-      ]),
+      bottomNavigationBar: CupertinoTabBar(
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.home,
+              color: _page == 0 ? primaryColor : secondaryColor,
+            ),
+            label: "",
+            backgroundColor: primaryColor,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.search_rounded,
+              color: _page == 1 ? primaryColor : secondaryColor,
+            ),
+            label: "",
+            backgroundColor: primaryColor,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.add_a_photo_outlined,
+              color: _page == 2 ? primaryColor : secondaryColor,
+            ),
+            label: "",
+            backgroundColor: primaryColor,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.favorite_border_outlined,
+              color: _page == 3 ? primaryColor : secondaryColor,
+            ),
+            label: "",
+            backgroundColor: primaryColor,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.person,
+              color: _page == 4 ? primaryColor : secondaryColor,
+            ),
+            label: "",
+            backgroundColor: primaryColor,
+          ),
+        ],
+        onTap: navigationTab,
+      ),
     );
   }
 }
