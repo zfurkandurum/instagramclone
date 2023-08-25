@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instagramclone/utils/color.dart';
+import 'package:instagramclone/utils/global_veriables.dart.dart';
 
 class mobilScreenLayout extends StatefulWidget {
   const mobilScreenLayout({super.key});
@@ -41,13 +42,7 @@ class _mobilScreenLayoutState extends State<mobilScreenLayout> {
         //physics: const NeverScrollableScrollPhysics(),
         controller: pageController,
         onPageChanged: onPageChanged,
-        children: const [
-          Text("1111111111"),
-          Text("22222222"),
-          Text("33333333"),
-          Text("4444444444"),
-          Text("555555555"),
-        ],
+        children: homeScreenItems,
       ),
       bottomNavigationBar: CupertinoTabBar(
         items: [

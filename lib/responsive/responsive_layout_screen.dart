@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:instagramclone/providers/user_provider.dart';
-import 'package:instagramclone/utils/dimensions.dart';
+import 'package:instagramclone/utils/global_veriables.dart.dart';
 import 'package:provider/provider.dart';
 
 class ResponsiveLayout extends StatefulWidget {
@@ -33,7 +33,7 @@ class _ResponsiveLayoutState extends State<ResponsiveLayout> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        if (constraints.maxWidth > screenSizes().webScreenSize) {
+        if (constraints.maxWidth > webScreenSize) {
           return widget.webScreenLayout;
         }
         return widget.mobilScreenLayout;
