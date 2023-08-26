@@ -28,8 +28,7 @@ class AuthMethods {
       if (email.isNotEmpty ||
           password.isNotEmpty ||
           username.isNotEmpty ||
-          bio.isNotEmpty ||
-          file != null) {
+          bio.isNotEmpty) {
         UserCredential cred = await _auth.createUserWithEmailAndPassword(
             email: email, password: password);
 

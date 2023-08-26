@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:instagramclone/models/users.dart';
 import 'package:instagramclone/providers/user_provider.dart';
+import 'package:instagramclone/resources/firestore_methods.dart';
 import 'package:instagramclone/utils/color.dart';
 import 'package:instagramclone/utils/utils.dart';
 import 'package:image_picker/image_picker.dart';
@@ -17,6 +18,30 @@ class AddPostScreen extends StatefulWidget {
 class _AddPostScreenState extends State<AddPostScreen> {
   Uint8List? _file;
   final TextEditingController _textEditingController = TextEditingController();
+
+  void postImage(
+    String uid,
+    String username,
+    String profileImage,
+  ) async {
+    try {
+      String res = await FirestoreMethods().uploadPost(
+        _textEditingController.text,
+        _file!,
+        uid,
+        username,
+        profileImage,
+      );
+
+      if (res == "success") {
+        showSnackBar("posted", context);
+      } else {
+        showSnackBar(res, context);
+      }
+    } catch (e) {
+      showSnackBar(e.toString(), context);
+    }
+  }
 
   _selectImage(BuildContext context) async {
     return showDialog(
@@ -64,6 +89,12 @@ class _AddPostScreenState extends State<AddPostScreen> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _textEditingController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final User user = Provider.of<UserProvider>(context).getUser!;
 
@@ -85,7 +116,8 @@ class _AddPostScreenState extends State<AddPostScreen> {
               centerTitle: false,
               actions: [
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () =>
+                      postImage(user.uid, user.username, user.photoURL),
                   child: const Text(
                     "Post",
                     style: TextStyle(
