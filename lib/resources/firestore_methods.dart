@@ -18,7 +18,8 @@ class FirestoreMethods {
     String res = "some error occurred";
     try {
       String photoUrl =
-          StorageMethods().uploadImageToString('posts', file, true) as String;
+          await StorageMethods().uploadImageToString('posts', file, true);
+
       String postId = const Uuid().v1();
       Post post = Post(
         description: description,
