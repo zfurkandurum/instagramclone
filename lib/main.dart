@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:instagramclone/providers/user_provider.dart';
 import 'package:instagramclone/responsive/mobile_Screen_layout.dart';
 import 'package:instagramclone/responsive/responsive_layout_screen.dart';
@@ -25,6 +26,7 @@ Future<void> main() async {
     );
   }
   await Firebase.initializeApp();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(const MainApp());
 }
 

@@ -56,6 +56,9 @@ class _LikeAnimationState extends State<LikeAnimation>
           milliseconds: 200,
         ),
       );
+      if (widget.onEnd != null) {
+        widget.onEnd!();
+      }
     }
   }
 

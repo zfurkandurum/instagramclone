@@ -131,19 +131,25 @@ class _PostCardState extends State<PostCard> {
             children: [
               LikeAnimation(
                 isAnimating: widget.snap['likes'].contains(user?.uid),
+                smallLike: true,
                 child: IconButton(
-                  onPressed: () async {
-                    await FirestoreMethods().likePost(
-                      widget.snap['postId'],
-                      user!.uid,
-                      widget.snap['likes'],
-                    );
-                  },
-                  icon: const Icon(
-                    Icons.favorite_outlined,
-                    color: Colors.red,
-                  ),
-                ),
+                    onPressed: () async {
+                      if (user != null) {
+                        await FirestoreMethods().likePost(
+                          widget.snap['postId'],
+                          user.uid, // Use user.uid after confirming user is not null
+                          widget.snap['likes'],
+                        );
+                      }
+                    },
+                    icon: widget.snap['likes'].contains(user?.uid)
+                        ? const Icon(
+                            Icons.favorite_outlined,
+                            color: Colors.red,
+                          )
+                        : const Icon(
+                            Icons.favorite_outlined,
+                          )),
               ),
               IconButton(
                 onPressed: () {},
