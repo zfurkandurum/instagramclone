@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:instagramclone/models/users.dart';
 import 'package:instagramclone/providers/user_provider.dart';
 import 'package:instagramclone/resources/firestore_methods.dart';
+import 'package:instagramclone/screens/comments_screen.dart';
 import 'package:instagramclone/utils/color.dart';
 import 'package:instagramclone/widgets/like_animation.dart';
 import 'package:intl/intl.dart';
@@ -152,7 +153,9 @@ class _PostCardState extends State<PostCard> {
                           )),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const CommentsScreen(),
+                )),
                 icon: const Icon(
                   Icons.comment_outlined,
                 ),

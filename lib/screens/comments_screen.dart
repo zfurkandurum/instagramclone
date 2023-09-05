@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:instagramclone/utils/color.dart';
 
 class CommentsScreen extends StatefulWidget {
   const CommentsScreen({super.key});
@@ -10,6 +11,12 @@ class CommentsScreen extends StatefulWidget {
 class _CommentsScreenState extends State<CommentsScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: mobileBackgroundColor,
+        title: const Text("comments"),
+        centerTitle: false,
+      ),
+    );
   }
 }
