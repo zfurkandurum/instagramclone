@@ -21,7 +21,7 @@ class _PostCardState extends State<PostCard> {
 
   @override
   Widget build(BuildContext context) {
-    final User? user = Provider.of<UserProvider>(context).getUser;
+    final User user = Provider.of<UserProvider>(context).getUser;
     return Container(
       color: mobileBackgroundColor,
       padding: const EdgeInsets.symmetric(vertical: 10),
@@ -89,7 +89,7 @@ class _PostCardState extends State<PostCard> {
             onDoubleTap: () async {
               await FirestoreMethods().likePost(
                 widget.snap['postId'],
-                user!.uid,
+                user.uid,
                 widget.snap['likes'],
               );
               setState(() {
@@ -131,19 +131,17 @@ class _PostCardState extends State<PostCard> {
           Row(
             children: [
               LikeAnimation(
-                isAnimating: widget.snap['likes'].contains(user?.uid),
+                isAnimating: widget.snap['likes'].contains(user.uid),
                 smallLike: true,
                 child: IconButton(
                     onPressed: () async {
-                      if (user != null) {
-                        await FirestoreMethods().likePost(
-                          widget.snap['postId'],
-                          user.uid, // Use user.uid after confirming user is not null
-                          widget.snap['likes'],
-                        );
-                      }
+                      await FirestoreMethods().likePost(
+                        widget.snap['postId'],
+                        user.uid, // Use user.uid after confirming user is not null
+                        widget.snap['likes'],
+                      );
                     },
-                    icon: widget.snap['likes'].contains(user?.uid)
+                    icon: widget.snap['likes'].contains(user.uid)
                         ? const Icon(
                             Icons.favorite_outlined,
                             color: Colors.red,
@@ -154,7 +152,9 @@ class _PostCardState extends State<PostCard> {
               ),
               IconButton(
                 onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const CommentsScreen(),
+                  builder: (context) => CommentsScreen(
+                    snap: widget.snap,
+                  ),
                 )),
                 icon: const Icon(
                   Icons.comment_outlined,

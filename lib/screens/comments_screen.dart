@@ -1,17 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:instagramclone/models/users.dart';
+import 'package:instagramclone/providers/user_provider.dart';
+import 'package:instagramclone/resources/firestore_methods.dart';
 import 'package:instagramclone/utils/color.dart';
 import 'package:instagramclone/widgets/comment_card.dart';
+import 'package:provider/provider.dart';
 
 class CommentsScreen extends StatefulWidget {
-  const CommentsScreen({super.key});
+  final snap;
+  const CommentsScreen({super.key, this.snap});
 
   @override
   State<CommentsScreen> createState() => _CommentsScreenState();
 }
 
 class _CommentsScreenState extends State<CommentsScreen> {
+  final TextEditingController textEditingController = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    textEditingController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final User user = Provider.of<UserProvider>(context).getUser;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: mobileBackgroundColor,
@@ -34,18 +48,26 @@ class _CommentsScreenState extends State<CommentsScreen> {
                 ),
                 radius: 18,
               ),
-              const Expanded(
+              Expanded(
                 child: Padding(
-                  padding: EdgeInsets.only(left: 16, right: 8),
+                  padding: const EdgeInsets.only(left: 16, right: 8),
                   child: TextField(
+                    controller: textEditingController,
                     decoration: InputDecoration(
-                        hintText: "comment as username",
+                        hintText: "comment as ${user.username}",
                         border: InputBorder.none),
                   ),
                 ),
               ),
               InkWell(
-                onTap: () {},
+                onTap: () async {
+                  FirestoreMethods().postComment(
+                      widget.snap['postId'],
+                      textEditingController.text,
+                      user.uid,
+                      user.username,
+                      user.photoURL);
+                },
                 child: Container(
                   padding:
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
