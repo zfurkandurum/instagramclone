@@ -98,11 +98,8 @@ class FirestoreMethods {
   Future<void> deletePost(
     String postId,
   ) async {
-    String res = "Some error occurred";
     try {
       await _firestore.collection('posts').doc(postId).delete();
-    } catch (err) {
-      res = err.toString();
-    }
+    } catch (err) {}
   }
 }
