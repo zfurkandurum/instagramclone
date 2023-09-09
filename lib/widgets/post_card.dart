@@ -21,7 +21,6 @@ class PostCard extends StatefulWidget {
 class _PostCardState extends State<PostCard> {
   bool isLikeAnimating = false;
   int commentLen = 0;
-
   @override
   void initState() {
     super.initState();
@@ -92,7 +91,10 @@ class _PostCardState extends State<PostCard> {
                                   ]
                                       .map(
                                         (e) => InkWell(
-                                          onTap: () {},
+                                          onTap: () async {
+                                            FirestoreMethods().deletePost(
+                                                widget.snap['postId']);
+                                          },
                                           child: Container(
                                             padding: const EdgeInsets.symmetric(
                                                 vertical: 12, horizontal: 16),
