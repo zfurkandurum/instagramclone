@@ -5,6 +5,7 @@ import 'package:instagramclone/resources/firestore_methods.dart';
 import 'package:instagramclone/utils/color.dart';
 import 'package:instagramclone/widgets/comment_card.dart';
 import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CommentsScreen extends StatefulWidget {
   final snap;
@@ -32,7 +33,36 @@ class _CommentsScreenState extends State<CommentsScreen> {
         title: const Text("Comments"),
         centerTitle: false,
       ),
-      body: const CommentCard(),
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('posts')
+            .doc(widget.snap['postId'])
+            .collection('comments')
+            .orderBy('datePublished', descending: true)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          if (!snapshot.hasData || snapshot.data == null) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          final QuerySnapshot commentSnapshot = snapshot.data as QuerySnapshot;
+
+          return ListView.builder(
+            itemCount: commentSnapshot.docs.length,
+            itemBuilder: (context, index) => CommentCard(
+              snap: commentSnapshot.docs[index].data(),
+            ),
+          );
+        },
+      ),
       bottomNavigationBar: SafeArea(
         child: Container(
           height: kToolbarHeight,
@@ -62,11 +92,15 @@ class _CommentsScreenState extends State<CommentsScreen> {
               InkWell(
                 onTap: () async {
                   FirestoreMethods().postComment(
-                      widget.snap['postId'],
-                      textEditingController.text,
-                      user.uid,
-                      user.username,
-                      user.photoURL);
+                    widget.snap['postId'],
+                    textEditingController.text,
+                    user.uid,
+                    user.username,
+                    user.photoURL,
+                  );
+                  setState(() {
+                    textEditingController.text = "";
+                  });
                 },
                 child: Container(
                   padding:
