@@ -42,6 +42,19 @@ class _PostCardState extends State<PostCard> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  @override
+  void setState(VoidCallback fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final User user = Provider.of<UserProvider>(context).getUser;
     return Container(
@@ -94,6 +107,7 @@ class _PostCardState extends State<PostCard> {
                                           onTap: () async {
                                             FirestoreMethods().deletePost(
                                                 widget.snap['postId']);
+                                            Navigator.of(context).pop();
                                           },
                                           child: Container(
                                             padding: const EdgeInsets.symmetric(

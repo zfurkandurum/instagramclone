@@ -23,14 +23,6 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _usernameController = TextEditingController();
   Uint8List? _image;
   bool _isloading = false;
-  @override
-  void dispose() {
-    super.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
-    _bioController.dispose();
-    _usernameController.dispose();
-  }
 
   void selectImage() async {
     Uint8List? im = await pickImage(ImageSource.gallery);
@@ -76,6 +68,15 @@ class _SignupScreenState extends State<SignupScreen> {
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => const LoginScreen(),
     ));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _bioController.dispose();
+    _usernameController.dispose();
   }
 
   @override
