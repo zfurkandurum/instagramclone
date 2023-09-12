@@ -63,27 +63,6 @@ class _SearchScreenState extends State<SearchScreen> {
                       });
                 },
               )
-            : FutureBuilder(
-                future: FirebaseFirestore.instance
-                    .collection('posts')
-                    .orderBy('datePublished')
-                    .get(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                  return MasonryGridView.count(
-                    crossAxisCount: 3,
-                    itemCount: (snapshot.data! as dynamic).docs.length,
-                    itemBuilder: (context, index) => Image.network(
-                      (snapshot.data! as dynamic).docs[index]['postUrl'],
-                      fit: BoxFit.cover,
-                    ),
-                    mainAxisSpacing: 8.0,
-                    crossAxisSpacing: 8.0,
-                  );
-                }));
+            : const Text("data"));
   }
 }
