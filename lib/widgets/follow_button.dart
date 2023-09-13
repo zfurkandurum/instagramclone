@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:instagramclone/utils/color.dart';
 
 class Followbutton extends StatelessWidget {
   final Function()? function;

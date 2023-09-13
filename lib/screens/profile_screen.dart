@@ -3,6 +3,7 @@ import 'package:instagramclone/utils/color.dart';
 import 'package:instagramclone/utils/utils.dart';
 import 'package:instagramclone/widgets/follow_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String uid;
@@ -15,6 +16,8 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   var userData = {};
+  int postlen = 0;
+
   @override
   void initState() {
     super.initState();
@@ -23,11 +26,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   getData() async {
     try {
-      DocumentSnapshot snap = await FirebaseFirestore.instance
+      DocumentSnapshot userSnap = await FirebaseFirestore.instance
           .collection("users")
           .doc(widget.uid)
           .get();
-      userData = snap.data()!;
+
+      //get post
+      var postSnap = await FirebaseFirestore.instance
+          .collection('posts')
+          .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+          .get();
+      postlen = postSnap.docs.length;
+      userData = userSnap.data() as Map<dynamic, dynamic>;
+      setState(() {});
     } catch (e) {
       showSnackBar(e.toString(), context);
     }
@@ -38,7 +49,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: mobileBackgroundColor,
-        title: const Text("username"),
+        title: Text(userData['username'] ?? ''),
         centerTitle: true,
       ),
       body: ListView(
@@ -49,10 +60,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
               children: [
                 Row(
                   children: [
-                    const CircleAvatar(
+                    CircleAvatar(
                       backgroundColor: Colors.grey,
                       backgroundImage: NetworkImage(
-                        "https://plus.unsplash.com/premium_photo-1668633086435-a16be494a922?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw3fHx8ZW58MHx8fHx8&auto=format&fit=crop&w=400&q=60",
+                        userData['photoUrl'] ?? '',
                       ),
                       radius: 40,
                     ),
@@ -61,7 +72,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          buildStatColumn(20, "posts"),
+                          buildStatColumn(postlen, "posts"),
                           buildStatColumn(150, "followers"),
                           buildStatColumn(10, "following"),
                         ],
@@ -84,9 +95,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.only(top: 15),
-                  child: const Text(
-                    "username",
-                    style: TextStyle(
+                  child: Text(
+                    userData['username'] ?? '',
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -94,9 +105,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.only(top: 2),
-                  child: const Text(
-                    "description",
-                    style: TextStyle(),
+                  child: Text(
+                    userData['bio'] ?? '',
+                    style: const TextStyle(),
                   ),
                 )
               ],
