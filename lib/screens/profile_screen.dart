@@ -17,7 +17,9 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   var userData = {};
   int postlen = 0;
-
+  int followers = 0;
+  int following = 0;
+  bool isFollowing = false;
   @override
   void initState() {
     super.initState();
@@ -38,6 +40,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
           .get();
       postlen = postSnap.docs.length;
       userData = userSnap.data() as Map<dynamic, dynamic>;
+      followers = userSnap['followers'].length;
+      following = userSnap['following'].length;
+      isFollowing =
+          (userSnap.data() as Map<String, dynamic>).containsKey('followers') &&
+              (userSnap.data() as Map<String, dynamic>)['followers']
+                  .contains(FirebaseAuth.instance.currentUser!.uid);
+
       setState(() {});
     } catch (e) {
       showSnackBar(e.toString(), context);
@@ -63,7 +72,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     CircleAvatar(
                       backgroundColor: Colors.grey,
                       backgroundImage: NetworkImage(
-                        userData['photoUrl'] ?? '',
+                        userData['photoURL'] ?? '',
                       ),
                       radius: 40,
                     ),
@@ -73,8 +82,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           buildStatColumn(postlen, "posts"),
-                          buildStatColumn(150, "followers"),
-                          buildStatColumn(10, "following"),
+                          buildStatColumn(followers, "followers"),
+                          buildStatColumn(following, "following"),
                         ],
                       ),
                     )
@@ -83,13 +92,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Followbutton(
-                      backgroundColor: mobileBackgroundColor,
-                      borderColor: Colors.grey,
-                      text: 'Edit profile',
-                      textColor: primaryColor,
-                      function: () {},
-                    )
+                    FirebaseAuth.instance.currentUser!.uid == widget.uid
+                        ? Followbutton(
+                            backgroundColor: mobileBackgroundColor,
+                            borderColor: Colors.grey,
+                            text: 'Edit profile',
+                            textColor: primaryColor,
+                            function: () {},
+                          )
+                        : isFollowing
+                            ? Followbutton(
+                                backgroundColor: Colors.white,
+                                borderColor: Colors.grey,
+                                text: 'Unfollow',
+                                textColor: Colors.black,
+                                function: () {},
+                              )
+                            : Followbutton(
+                                backgroundColor: Colors.blue,
+                                borderColor: Colors.blue,
+                                text: 'Follow ',
+                                textColor: Colors.white,
+                                function: () {},
+                              )
                   ],
                 ),
                 Container(
