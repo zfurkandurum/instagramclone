@@ -4,9 +4,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:instagramclone/models/post.dart';
 import 'package:instagramclone/resources/storage_methods.dart';
 import 'package:uuid/uuid.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class FirestoreMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<String> uploadPost(
     String description,
@@ -129,5 +131,9 @@ class FirestoreMethods {
     } catch (e) {
       print(e);
     }
+  }
+
+  Future<void> signOut() async {
+    await _auth.signOut();
   }
 }

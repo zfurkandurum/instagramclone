@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:instagramclone/resources/auth_method.dart';
 import 'package:instagramclone/resources/firestore_methods.dart';
+import 'package:instagramclone/screens/login_screen.dart';
 import 'package:instagramclone/utils/color.dart';
 import 'package:instagramclone/utils/utils.dart';
 import 'package:instagramclone/widgets/follow_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String uid;
@@ -109,9 +110,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ? Followbutton(
                                   backgroundColor: mobileBackgroundColor,
                                   borderColor: Colors.grey,
-                                  text: 'Edit profile',
+                                  text: 'Sign Out',
                                   textColor: primaryColor,
-                                  function: () {},
+                                  function: () async {
+                                    await FirestoreMethods().signOut();
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                      builder: (context) => const LoginScreen(),
+                                    ));
+                                  },
                                 )
                               : isFollowing
                                   ? Followbutton(
